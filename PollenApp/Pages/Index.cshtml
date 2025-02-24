@@ -4,35 +4,56 @@
     ViewData["Title"] = "Pollen Forecast";
 }
 
-<h1>Pollen Forecast</h1>
-<button onclick="fetchPollenTypes()">Get Pollen Types</button>
-<div id="pollen-types"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Pollen"]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<script>
-    async function fetchPollenTypes() {
-        try {
-            const response = await fetch("/api/pollen/types");
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+</head>
+<body>
+    <h1>Pollen Forecast</h1>
+    <button onclick="fetchPollenLevels()">Get Pollen Levels in Sundsvall</button>
+    <div id="pollen-levels"></div>
+
+    <script>
+        async function fetchPollenLevels() {
+            try {
+                const response = await fetch("/api/pollen/types");
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                displayPollenLevels(data.items);
+            } catch (error) {
+                console.error("Error fetching pollen levels:", error);
             }
-            const data = await response.json();
-            displayPollenTypes(data.items);
-        } catch (error) {
-            console.error("Error fetching pollen types:", error);
         }
-    }
 
-    function displayPollenTypes(pollenTypes) {
-        const container = document.getElementById("pollen-types");
-        container.innerHTML = pollenTypes.map(pollen => `
-            <div>
-                <h3>${pollen.name}</h3>
-                <p>Forecasts: <a href="${pollen.forecasts}" target="_blank">View Forecasts</a></p>
-                <p>Start Date: ${pollen.startDate}</p>
-                <p>End Date: ${pollen.endDate}</p>
-                <p>${pollen.text}</p>
-                ${pollen.images ? pollen.images.map(image => `<img src="${image.url}" alt="Pollen Image" />`).join('') : ''}
-            </div>
-        `).join("");
-    }
-</script>
+        function displayPollenLevels(pollenTypes) {
+            const sundsvallRegionId = "your-sundsvall-region-id"; // Replace with the actual regionId for Sundsvall
+            const container = document.getElementById("pollen-levels");
+            const sundsvallPollen = pollenTypes.filter(pollen => pollen.regionId === sundsvallRegionId);
+
+            if (sundsvallPollen.length === 0) {
+                container.innerHTML = "<p>No pollen data available for Sundsvall.</p>";
+                return;
+            }
+
+            container.innerHTML = sundsvallPollen.map(pollen => `
+                <div>
+                    <h3>${pollen.name}</h3>
+                    <p>Start Date: ${pollen.startDate}</p>
+                    <p>End Date: ${pollen.endDate}</p>
+                    <p>${pollen.text}</p>
+                    ${pollen.levelSeries ? pollen.levelSeries.map(level => `
+                        <p>Level on ${level.time}: ${level.level}</p>
+                    `).join('') : ''}
+                </div>
+            `).join("");
+        }
+    </script>
+</body>
+</html>
