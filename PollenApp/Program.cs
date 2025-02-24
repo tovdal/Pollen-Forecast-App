@@ -7,7 +7,9 @@ namespace PollenApp
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddHttpClient<PollenService>();
             builder.Services.AddRazorPages();
+            builder.Services.AddControllers(); // Add this line to include controllers
 
             var app = builder.Build();
 
@@ -28,6 +30,7 @@ namespace PollenApp
             app.MapStaticAssets();
             app.MapRazorPages()
                .WithStaticAssets();
+            app.MapControllers(); // Add this line to map controllers
 
             app.Run();
         }

@@ -1,10 +1,38 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Pollen Forecast";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Pollen Forecast</h1>
+<button onclick="fetchPollenTypes()">Get Pollen Types</button>
+<div id="pollen-types"></div>
+
+<script>
+    async function fetchPollenTypes() {
+        try {
+            const response = await fetch("/api/pollen/types");
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            displayPollenTypes(data.items);
+        } catch (error) {
+            console.error("Error fetching pollen types:", error);
+        }
+    }
+
+    function displayPollenTypes(pollenTypes) {
+        const container = document.getElementById("pollen-types");
+        container.innerHTML = pollenTypes.map(pollen => `
+            <div>
+                <h3>${pollen.name}</h3>
+                <p>Forecasts: <a href="${pollen.forecasts}" target="_blank">View Forecasts</a></p>
+                <p>Start Date: ${pollen.startDate}</p>
+                <p>End Date: ${pollen.endDate}</p>
+                <p>${pollen.text}</p>
+                ${pollen.images ? pollen.images.map(image => `<img src="${image.url}" alt="Pollen Image" />`).join('') : ''}
+            </div>
+        `).join("");
+    }
+</script>
