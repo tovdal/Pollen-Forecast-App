@@ -14,8 +14,7 @@
 
 </head>
 <body>
-    <h1>Pollen Forecast</h1>
-    <button onclick="fetchPollenLevels()">Get Pollen Levels in Sundsvall</button>
+    <h1>Pollen Forecast in Sundsvall</h1>
     <div id="pollen-levels"></div>
 
     <script>
@@ -54,6 +53,9 @@
                 </div>
             `).join("");
         }
+
+        // Automatically fetch pollen levels when the page loads
+        window.onload = fetchPollenLevels;
     </script>
 </body>
 </html>
