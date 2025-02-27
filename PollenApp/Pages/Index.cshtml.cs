@@ -16,6 +16,7 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync()
     {
+        //string RegionTEST = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a39"; // Malmö
         string regionId = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a303a3137"; // Sundsvall's region ID
         string url = $"https://api.pollenrapporten.se/v1/pollen-count?region_id={regionId}&offset=0&limit=100";
 

@@ -45,26 +45,27 @@
             return "/images/unknown.png";
         }
 
-        function displayPollenLevels(forecasts) {
+                function displayPollenLevels(forecasts) {
             const container = document.getElementById("pollen-levels");
 
-            if (forecasts.length === 0) {
+            if (!forecasts || forecasts.length === 0) {
                 container.innerHTML = "<p>Ingen pollenprognos tillgänglig för Sundsvall.</p>";
                 return;
             }
 
             container.innerHTML = forecasts.map(forecast => `
-                <div class="pollen-card">
-                    <h3>${forecast.pollenType}</h3>
-                    <p>Startdatum: ${forecast.startDate}</p>
-                    <p>Slutdatum: ${forecast.endDate}</p>
-                    <p>${forecast.text}</p>
-                    ${forecast.levelSeries ? forecast.levelSeries.map(level => `
-                        <p>
-                            Nivå den ${level.time}: ${level.level}
-                            <img class="pollen-icon" src="${getPollenIcon(level.level)}" alt="Pollen Level Icon">
-                        </p>
-                    `).join('') : ''}
+                <div>
+                    <h3>Pollenprognos</h3>
+                    <p><strong>Startdatum:</strong> ${forecast.startDate ?? "Okänt"}</p>
+                    <p><strong>Slutdatum:</strong> ${forecast.endDate ?? "Okänt"}</p>
+                    <p><strong>Beskrivning:</strong> ${forecast.text ?? "Ingen beskrivning tillgänglig."}</p>
+
+                    ${forecast.levelSeries && forecast.levelSeries.length > 0
+                        ? forecast.levelSeries.map(level => `
+                            <p><strong>Nivå den ${level.time ?? "Okänd"}:</strong> ${level.level ?? "Okänt"}</p>
+                        `).join('')
+                        : '<p><strong>Pollenmängd:</strong> Ingen data tillgänglig.</p>'
+                    }
                 </div>
             `).join("");
         }
