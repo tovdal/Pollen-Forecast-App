@@ -18,44 +18,55 @@
     <div id="pollen-levels"></div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchPollenLevels();
+        });
+
         async function fetchPollenLevels() {
             try {
-                const response = await fetch("/api/pollen/types");
+                const response = await fetch("https://api.pollenrapporten.se/v1/forecasts?region_id=2a2a2a2a-2a2a-4a2a-aa2a-2a2a303a3137&current=true");
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
                 displayPollenLevels(data.items);
             } catch (error) {
-                console.error("Error fetching pollen levels:", error);
+                console.error("Error fetching pollen forecasts:", error);
             }
         }
 
-        function displayPollenLevels(pollenTypes) {
-            const sundsvallRegionId = "your-sundsvall-region-id"; // Replace with the actual regionId for Sundsvall
-            const container = document.getElementById("pollen-levels");
-            const sundsvallPollen = pollenTypes.filter(pollen => pollen.regionId === sundsvallRegionId);
+        function getPollenIcon(level) {
+            if (level === 0) return "/images/none.png";
+            if (level === 1 || level === 2) return "/images/low.png";
+            if (level === 3 || level === 4) return "/images/medium.png";
+            if (level === 5 || level === 6) return "/images/high.png";
+            if (level === 7) return "/images/very-high.png";
+            return "/images/unknown.png";
+        }
 
-            if (sundsvallPollen.length === 0) {
-                container.innerHTML = "<p>No pollen data available for Sundsvall.</p>";
+        function displayPollenLevels(forecasts) {
+            const container = document.getElementById("pollen-levels");
+
+            if (forecasts.length === 0) {
+                container.innerHTML = "<p>Ingen pollenprognos tillgänglig för Sundsvall.</p>";
                 return;
             }
 
-            container.innerHTML = sundsvallPollen.map(pollen => `
-                <div>
-                    <h3>${pollen.name}</h3>
-                    <p>Start Date: ${pollen.startDate}</p>
-                    <p>End Date: ${pollen.endDate}</p>
-                    <p>${pollen.text}</p>
-                    ${pollen.levelSeries ? pollen.levelSeries.map(level => `
-                        <p>Level on ${level.time}: ${level.level}</p>
+            container.innerHTML = forecasts.map(forecast => `
+                <div class="pollen-card">
+                    <h3>${forecast.pollenType}</h3>
+                    <p>Startdatum: ${forecast.startDate}</p>
+                    <p>Slutdatum: ${forecast.endDate}</p>
+                    <p>${forecast.text}</p>
+                    ${forecast.levelSeries ? forecast.levelSeries.map(level => `
+                        <p>
+                            Nivå den ${level.time}: ${level.level}
+                            <img class="pollen-icon" src="${getPollenIcon(level.level)}" alt="Pollen Level Icon">
+                        </p>
                     `).join('') : ''}
                 </div>
             `).join("");
         }
-
-        // Automatically fetch pollen levels when the page loads
-        window.onload = fetchPollenLevels;
     </script>
 </body>
 </html>
