@@ -37,7 +37,8 @@
 
         function getPollenIcon(level) {
             if (level === 0) return "/images/none.png";
-            if (level === 1 || level === 2) return "/images/low.png";
+            if (level === 1) return "images/very-low-png";
+            if (level === 2) return "/images/low.png";
             if (level === 3 || level === 4) return "/images/medium.png";
             if (level === 5 || level === 6) return "/images/high.png";
             if (level === 7) return "/images/very-high.png";
