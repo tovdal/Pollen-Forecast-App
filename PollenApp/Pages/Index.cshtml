@@ -17,27 +17,36 @@
     <h1>Pollen Forecast in Sundsvall</h1>
     <div id="pollen-levels"></div>
 
-    <script>
+        <script>
         document.addEventListener("DOMContentLoaded", function() {
             fetchPollenLevels();
         });
 
         async function fetchPollenLevels() {
-            try {
-                const response = await fetch("https://api.pollenrapporten.se/v1/forecasts?region_id=2a2a2a2a-2a2a-4a2a-aa2a-2a2a303a3137&current=true");
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+            const regions = [
+                { id: "2a2a2a2a-2a2a-4a2a-aa2a-2a2a303a3137", name: "Sundsvall" },
+                { id: "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a32", name: "Stockholm" },
+                { id: "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a38", name: "Göteborg" },
+                { id: "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a39", name: "Malmö" }
+            ];
+
+            for (const region of regions) {
+                try {
+                    const response = await fetch(`https://api.pollenrapporten.se/v1/forecasts?region_id=${region.id}&current=true`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    displayPollenLevels(data.items, region.name);
+                } catch (error) {
+                    console.error(`Error fetching pollen forecasts for ${region.name}:`, error);
                 }
-                const data = await response.json();
-                displayPollenLevels(data.items);
-            } catch (error) {
-                console.error("Error fetching pollen forecasts:", error);
             }
         }
 
         function getPollenIcon(level) {
             if (level === 0) return "/images/none.png";
-            if (level === 1) return "images/very-low-png";
+            if (level === 1) return "/images/very-low.png";
             if (level === 2) return "/images/low.png";
             if (level === 3 || level === 4) return "/images/medium.png";
             if (level === 5 || level === 6) return "/images/high.png";
@@ -45,30 +54,30 @@
             return "/images/unknown.png";
         }
 
-                function displayPollenLevels(forecasts) {
+        function displayPollenLevels(forecasts, regionName) {
             const container = document.getElementById("pollen-levels");
+            const today = new Date().toISOString().split('T')[0];
 
             if (!forecasts || forecasts.length === 0) {
-                container.innerHTML = "<p>Ingen pollenprognos tillgänglig för Sundsvall.</p>";
+                container.innerHTML += `<p>Ingen pollenprognos tillgänglig för ${regionName}.</p>`;
                 return;
             }
 
-            container.innerHTML = forecasts.map(forecast => `
-                <div>
-                    <h3>Pollenprognos</h3>
-                    <p><strong>Startdatum:</strong> ${forecast.startDate ?? "Okänt"}</p>
-                    <p><strong>Slutdatum:</strong> ${forecast.endDate ?? "Okänt"}</p>
-                    <p><strong>Beskrivning:</strong> ${forecast.text ?? "Ingen beskrivning tillgänglig."}</p>
-
-                    ${forecast.levelSeries && forecast.levelSeries.length > 0
-                        ? forecast.levelSeries.map(level => `
-                            <p><strong>Nivå den ${level.time ?? "Okänd"}:</strong> ${level.level ?? "Okänt"}</p>
-                        `).join('')
-                        : '<p><strong>Pollenmängd:</strong> Ingen data tillgänglig.</p>'
-                    }
-                </div>
-            `).join("");
+            container.innerHTML += forecasts.map(forecast => {
+                const todayLevel = forecast.levelSeries.find(level => level.time.split('T')[0] === today);
+                console.log(`Region: ${regionName}, Today: ${today}, Level Series:`, forecast.levelSeries);
+                return `
+                    <div>
+                        <h3>Pollenprognos för ${regionName}</h3>
+                        <p><strong>Startdatum:</strong> ${forecast.startDate ?? "Okänt"}</p>
+                        <p><strong>Slutdatum:</strong> ${forecast.endDate ?? "Okänt"}</p>
+                        <p><strong>Beskrivning:</strong> ${forecast.text ?? "Ingen beskrivning tillgänglig."}</p>
+                        <p><strong>Nivå idag:</strong> ${todayLevel ? todayLevel.level : "Ingen data tillgänglig."}</p>
+                    </div>
+                `;
+            }).join("");
         }
     </script>
+
 </body>
 </html>
