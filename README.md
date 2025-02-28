@@ -19,6 +19,10 @@ This is a simple Razor Pages project to display pollen forecasts for Sundsvall. 
 - .NET 9
 - Razor Pages
 
+## Data Source
+
+The pollen forecast data is provided by "Palynologiska laboratoriet vid Naturhistoriska riksmuseet". For more information, visit their [API documentation](https://pollenrapporten.se).
+
 ## Usage
 
 Navigate to the home page to see the pollen forecast for Sundsvall.
