@@ -70,14 +70,12 @@
 
 .pollen-card {
     border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
     border-radius: 8px;
     text-align: center;
     font-family: 'Poppins', sans-serif;
 }
 
 .pollen-icon {
-    width: 40px;
-    height: 40px;
+    width: 150px;
+    height: 150px;
 }
