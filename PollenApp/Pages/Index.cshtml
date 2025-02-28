@@ -12,79 +12,17 @@
     <title>@ViewData["Pollen"]</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css">
-
 </head>
 <body>
     <h1>Pollen Forecast in Sundsvall</h1>
-    <div id="pollen-levels"></div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            fetchPollenLevels();
-        });
-
-        async function fetchPollenLevels() {
-            const regions = [
-                { id: "2a2a2a2a-2a2a-4a2a-aa2a-2a2a303a3137", name: "Sundsvall" },
-                { id: "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a32", name: "Stockholm" },
-                { id: "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a38", name: "Göteborg" },
-                { id: "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a39", name: "Malmö" }
-            ];
-
-            for (const region of regions) {
-                try {
-                    const response = await fetch(`https://api.pollenrapporten.se/v1/forecasts?region_id=${region.id}&current=true`);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    const data = await response.json();
-                    displayPollenLevels(data.items, region.name);
-                } catch (error) {
-                    console.error(`Error fetching pollen forecasts for ${region.name}:`, error);
-                }
-            }
-        }
-
-                function getPollenIcon(level) {
-            let icon;
-            switch (level) {
-                case 0: icon = "/images/none.png"; break;
-                case 1: icon = "/images/very-low.png"; break;
-                case 2: icon = "/images/low.png"; break;
-                case 3:
-                case 4: icon = "/images/medium.png"; break;
-                case 5:
-                case 6: icon = "/images/high.png"; break;
-                case 7: icon = "/images/very-high.png"; break;
-                default: icon = "/images/unknown.png"; break;
-            }
-            return `<div class="pollen-card"><img class="pollen-icon" src="${icon}" alt="Pollen level icon"></div>`;
-        }
-
-                function displayPollenLevels(forecasts, regionName) {
-            const container = document.getElementById("pollen-levels");
-            const today = new Date().toISOString().split('T')[0];
-
-            if (!forecasts || forecasts.length === 0) {
-                container.innerHTML += `<p>Ingen pollenprognos tillgänglig för ${regionName}.</p>`;
-                return;
-            }
-
-            container.innerHTML += forecasts.map(forecast => {
-                const todayLevel = forecast.levelSeries.find(level => level.time.split('T')[0] === today);
-                const level = todayLevel ? todayLevel.level : null;
-                const iconHtml = level !== null ? getPollenIcon(level) : getPollenIcon(null);
-                return `
-                    <div>
-                        <h3>Pollenprognos för ${regionName}</h3>
-                        <p><strong>Startdatum:</strong> ${forecast.startDate ?? "Okänt"}</p>
-                        <p><strong>Slutdatum:</strong> ${forecast.endDate ?? "Okänt"}</p>
-                        <p><strong>Beskrivning:</strong> ${forecast.text ?? "Ingen beskrivning tillgänglig."}</p>
-                        <p><strong>Nivå idag:</strong> ${level !== null ? level : "Ingen data tillgänglig."}</p>
-                        ${iconHtml}
-                    </div>
-                `;
-            }).join("");
-        }
-    </script>
+    <div id="pollen-levels">
+        @Html.Raw(Model.PollenHtml)
+    </div>
+@*     <footer>
+        <p>&copy; 2025 PollenApp. All rights reserved.</p>
+    </footer> *@
 </body>
 </html>
+
+
+
