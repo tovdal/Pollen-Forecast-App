@@ -1,6 +1,9 @@
 /* Base styles */
 html {
     font-size: 16px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -9,6 +12,18 @@ body {
     color: #4a4a4a;
     margin: 0;
     padding: 0;
+}
+
+/* Wrapper ensures footer stays at bottom */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Content takes up available space */
+.content {
+    flex: 1;
 }
 
 /* Headings */
@@ -92,20 +107,24 @@ img {
     margin: 10px auto;
 }
 
-/* Footer */
+/*Footer*/
 footer {
-    background-color: #ffb6c1;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-    position: fixed;
-    width: 100%;
+    position: fixed !important;
     bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #ffb6c1;
+    padding: 10px 0; 
 }
 
     footer p {
         margin: 0;
     }
+.footer {
+    position: relative; /* Eller ta bort position helt */
+    width: 100%;
+}
 
 /* Media queries */
 @media (min-width: 768px) {
