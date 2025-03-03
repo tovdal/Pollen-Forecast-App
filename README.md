@@ -1,6 +1,6 @@
 # Pollen Forecast App
 
-This is a simple Razor Pages project to display pollen forecasts for Sundsvall. The project was created to learn more about ASP.NET and Razor Pages.
+This is a simple Razor Pages project to display pollen forecasts for Sundsvall, Stockholm, Gothenburg and Malmö. The project was created to learn more about ASP.NET and Razor Pages (And just for fun).
 
 ## Features
 
