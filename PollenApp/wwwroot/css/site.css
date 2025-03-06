@@ -8,71 +8,82 @@ html {
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f8f0fc;
-    color: #4a4a4a;
+    background-color: #fdf7fc;
+    color: #333;
     margin: 0;
     padding: 0;
 }
 
-/* Wrapper ensures footer stays at bottom */
+/* Wrapper ensures footer stays at the bottom */
 .wrapper {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-/* Content takes up available space */
+/* Content grows to fill space */
 .content {
     flex: 1;
+    padding: 20px;
 }
 
 /* Headings */
 h1 {
-    color: #ff69b4;
+    color: #d63384;
     text-align: center;
     margin-top: 20px;
+    font-size: 2rem;
 }
 
 /* Buttons */
 button {
-    background-color: #ffb6c1;
+    background: linear-gradient(135deg, #ff7eb3, #ff4f8b);
     border: none;
     color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+    padding: 12px 24px;
     font-size: 16px;
-    margin: 20px auto;
+    font-weight: 600;
+    border-radius: 10px;
     cursor: pointer;
-    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
     display: block;
+    width: fit-content;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
     button:hover {
-        background-color: #ff69b4;
+        background: linear-gradient(135deg, #ff4f8b, #d63384);
+        transform: scale(1.05);
     }
 
 /* Pollen levels container */
 #pollen-levels {
     max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff0f5;
+    margin: 50px auto;
+    padding: 25px;
+    background: white;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding-bottom: 25px;
+
 }
 
     #pollen-levels div {
         background-color: #ffe4e1;
         border-radius: 8px;
-        padding: 10px;
-        margin-bottom: 10px;
+        padding: 12px;
+        margin-bottom: 12px;
+        transition: transform 0.2s;
     }
 
+        #pollen-levels div:hover {
+            transform: scale(1.02);
+        }
+
     #pollen-levels h3 {
-        color: #ff69b4;
-        margin: 0;
+        color: #d63384;
+        margin: 0 0 5px;
     }
 
     #pollen-levels p {
@@ -88,13 +99,14 @@ img {
 
 /* Pollen card */
 .pollen-card {
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 8px;
     text-align: center;
-    justify-content: center;
     font-family: 'Poppins', sans-serif;
-    padding: 10px;
+    padding: 15px;
     margin-bottom: 10px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 /* Pollen icon */
@@ -102,8 +114,8 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     margin: 10px auto;
 }
 
