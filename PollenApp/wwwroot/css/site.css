@@ -4,11 +4,12 @@ html {
     height: 100%;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #fdf7fc;
+    background-color: #e8f5e9; 
     color: #333;
     margin: 0;
     padding: 0;
@@ -24,12 +25,12 @@ body {
 /* Content grows to fill space */
 .content {
     flex: 1;
-    padding: 20px;
+    padding: 40px;
 }
 
 /* Headings */
 h1 {
-    color: #d63384;
+    color: #2e7d32; 
     text-align: center;
     margin-top: 20px;
     font-size: 2rem;
@@ -37,7 +38,7 @@ h1 {
 
 /* Buttons */
 button {
-    background: linear-gradient(135deg, #ff7eb3, #ff4f8b);
+    background: linear-gradient(135deg, #aed581, #9ccc65); 
     border: none;
     color: white;
     padding: 12px 24px;
@@ -53,36 +54,36 @@ button {
 }
 
     button:hover {
-        background: linear-gradient(135deg, #ff4f8b, #d63384);
+        background: linear-gradient(135deg, #9ccc65, #7cb342);
         transform: scale(1.05);
     }
 
 /* Pollen levels container */
 #pollen-levels {
     max-width: 800px;
-    margin: 50px auto;
+    margin: 25px auto;
+    margin-bottom: 65px; 
     padding: 25px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    padding-bottom: 25px;
-
 }
 
     #pollen-levels div {
-        background-color: #ffe4e1;
+        background-color: #fef4d1;
         border-radius: 8px;
         padding: 12px;
         margin-bottom: 12px;
         transition: transform 0.2s;
     }
 
+
         #pollen-levels div:hover {
             transform: scale(1.02);
         }
 
     #pollen-levels h3 {
-        color: #d63384;
+        color: #2e7d32; 
         margin: 0 0 5px;
     }
 
@@ -119,22 +120,24 @@ img {
     margin: 10px auto;
 }
 
-/*Footer*/
+/* Footer */
 footer {
     position: fixed !important;
     bottom: 0;
     left: 0;
     width: 100%;
     text-align: center;
-    background-color: #ffb6c1;
-    padding: 10px 0; 
+    background-color: #f8e5b8;
+    color: white;
+    padding: 10px 0;
 }
 
     footer p {
         margin: 0;
     }
+
 .footer {
-    position: relative; /* Eller ta bort position helt */
+    position: relative; 
     width: 100%;
 }
 
